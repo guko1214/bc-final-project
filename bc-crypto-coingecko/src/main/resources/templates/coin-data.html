@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="ISO-8859-1">
+        <title>External API Data</title>
+        <style>
+          
+        </style>
+    </head>
+    <body>
+        <h1>Data from External API</h1>
+        <div class="form-group">
+            <label for="coinFilter">Filter by ID:</label>
+            <input type="text" class="form-control" id="coinFilter" placeholder="Enter Coin ID">
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Coin ID</th>
+                    <th>Current Price (USD)</th>
+                </tr>
+                <tr></tr>
+            </thead>
+            <tbody>
+                <tr th:each="coinData : ${coinsMKDatas}" class ="coinRow">
+                    <td><img th:src="${coinData.image}" alt="Coin Image" height="30"></td>
+                    <td th:text="${coinData.id}"></td>                    
+                    <td th:text="${coinData.current_price}"></td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- Add JavaScript for filtering -->
+        <script>
+
+            document.addEventListener('DOMContentLoaded',function () {
+                var coinFilter = document.getElementById('coinFilter');
+                var coinRows = document.querySelectorAll('.coinRow');
+                coinFilter.addEventListener('input',function () {
+                    var filter = coinFilter.value.toUpperCase();
+                    coinRows.forEach(function (row) {
+                    var coinId = row.querySelector('td:nth-child(2)').textContent.toUpperCase();
+                    if (coinId.indexOf(filter) > -1) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+
+        </script>
+    </body>
+</html>
